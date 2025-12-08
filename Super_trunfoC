@@ -1,0 +1,109 @@
+#include <stdio.h>
+#include <string.h>
+
+// Definindo a estrutura da carta
+typedef struct {
+    char nome[50];
+    int populacao;
+    float area;
+    float pib;
+    int pontos_turisticos;
+    float densidade_demografica; // Calculada como populacao / area
+} Carta;
+
+// Função para exibir o menu
+void exibirMenu() {
+    printf("\n=== MENU SUPER TRUNFO ===\n");
+    printf("Escolha o atributo para comparar as cartas:\n");
+    printf("1. Populacao\n");
+    printf("2. Area\n");
+    printf("3. PIB\n");
+    printf("4. Numero de pontos turisticos\n");
+    printf("5. Densidade demografica\n");
+    printf("0. Sair\n");
+    printf("Digite sua escolha: ");
+}
+
+// Função para comparar as cartas com base no atributo escolhido
+void compararCartas(Carta carta1, Carta carta2, int atributo) {
+    char atributoNome[50];
+    float valor1, valor2;
+    int vencedor = 0; // 0: empate, 1: carta1 vence, 2: carta2 vence
+
+    switch (atributo) {
+        case 1: // Populacao
+            strcpy(atributoNome, "Populacao");
+            valor1 = carta1.populacao;
+            valor2 = carta2.populacao;
+            if (carta1.populacao > carta2.populacao) vencedor = 1;
+            else if (carta1.populacao < carta2.populacao) vencedor = 2;
+            break;
+        case 2: // Area
+            strcpy(atributoNome, "Area");
+            valor1 = carta1.area;
+            valor2 = carta2.area;
+            if (carta1.area > carta2.area) vencedor = 1;
+            else if (carta1.area < carta2.area) vencedor = 2;
+            break;
+        case 3: // PIB
+            strcpy(atributoNome, "PIB");
+            valor1 = carta1.pib;
+            valor2 = carta2.pib;
+            if (carta1.pib > carta2.pib) vencedor = 1;
+            else if (carta1.pib < carta2.pib) vencedor = 2;
+            break;
+        case 4: // Pontos turisticos
+            strcpy(atributoNome, "Numero de pontos turisticos");
+            valor1 = carta1.pontos_turisticos;
+            valor2 = carta2.pontos_turisticos;
+            if (carta1.pontos_turisticos > carta2.pontos_turisticos) vencedor = 1;
+            else if (carta1.pontos_turisticos < carta2.pontos_turisticos) vencedor = 2;
+            break;
+        case 5: // Densidade demografica (regra invertida: menor vence)
+            strcpy(atributoNome, "Densidade demografica");
+            valor1 = carta1.densidade_demografica;
+            valor2 = carta2.densidade_demografica;
+            if (carta1.densidade_demografica < carta2.densidade_demografica) vencedor = 1;
+            else if (carta1.densidade_demografica > carta2.densidade_demografica) vencedor = 2;
+            break;
+        default:
+            printf("Opcao invalida! Tente novamente.\n");
+            return;
+    }
+
+    // Exibindo o resultado
+    printf("\n=== RESULTADO DA COMPARACAO ===\n");
+    printf("Paises: %s vs %s\n", carta1.nome, carta2.nome);
+    printf("Atributo: %s\n", atributoNome);
+    printf("%s: %.2f\n", carta1.nome, valor1);
+    printf("%s: %.2f\n", carta2.nome, valor2);
+    if (vencedor == 0) {
+        printf("Resultado: Empate!\n");
+    } else if (vencedor == 1) {
+        printf("Resultado: %s venceu!\n", carta1.nome);
+    } else {
+        printf("Resultado: %s venceu!\n", carta2.nome);
+    }
+}
+
+int main() {
+    // Definindo duas cartas de exemplo (simulando cadastro anterior)
+    Carta carta1 = {"Brasil", 211000000, 8514877.0, 1843.0, 20, 24.78}; // Densidade calculada
+    Carta carta2 = {"Argentina", 45000000, 2780400.0, 449.0, 15, 16.18}; // Densidade calculada
+
+    int escolha;
+
+    do {
+        exibirMenu();
+        scanf("%d", &escolha);
+
+        if (escolha >= 1 && escolha <= 5) {
+            compararCartas(carta1, carta2, escolha);
+        } else if (escolha != 0) {
+            printf("Opcao invalida! Escolha entre 0 e 5.\n");
+        }
+    } while (escolha != 0);
+
+    printf("Obrigado por jogar Super Trunfo!\n");
+    return 0;
+}
